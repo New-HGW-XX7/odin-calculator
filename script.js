@@ -1,3 +1,5 @@
+// Basic functions
+
 function add(a, b) {
     return a + b;
 }
@@ -15,5 +17,18 @@ function divide(a, b) {
 }
 
 function operate(num1, operator, num2) {
-    
+
 }
+
+// Functionality
+
+// Handles and populates the display
+function writeIn(input) {
+    const output = document.querySelector('.output');
+    output.textContent = input;
+}
+
+// Button wiring
+
+const btn1 = document.getElementById('1');
+btn1.addEventListener('click', () => writeIn(1));
