@@ -28,6 +28,13 @@ function writeIn(input) {
     output.textContent = input;
 }
 
+// Clears operational array
+function wipe(array) {
+    while (array[0]) {
+        array.pop();
+    }
+}
+
 // Button wiring
 
 const btn1 = document.getElementById('1');
