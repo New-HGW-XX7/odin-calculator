@@ -1,5 +1,4 @@
 // Basic functions
-
 function add(a, b) {
     return a + b;
 }
@@ -33,6 +32,10 @@ function operate(num1, operator, num2) {
         case 'plus':
             temp = add(num1, num2);
             break;
+
+        case 'multiply':
+            temp = multiply(num1, num2);
+            break;
         
         default:
             console.log('default');
@@ -62,18 +65,31 @@ function wipe(array) {
     }
 }
 
-// Button wiring
+// Number buttons
 
 const btn1 = document.getElementById('1');
-btn1.addEventListener('click', () => writeIn(1));
+btn1.addEventListener('click', () => writeIn(1)); // Update these. Enable concatenation. Use new function.
+                                                  // See 3 for example. Needs to check for 0.
+                                                  // Also check if current display is a result value or not.
+                                                  // If array-length is 0 or 2 it's not and concat is okay.
 
 const btn2 = document.getElementById('2');
 btn2.addEventListener('click', () => writeIn(2));
 
+const btn3 = document.getElementById('3');
+btn3.addEventListener('click', () => {
+    output.textContent += '3';
+});
+
+
+// Operator buttons
+
 const btnPlus = document.getElementById('plus');
 btnPlus.addEventListener('click', () => {
     const currentValue = Number(output.textContent);
-    // Add control to check for empty array - if [0] exists push only operator else currentValue and operator
+    // Check for empty array and populate
+    // If [0] and [1] exist, perform calculation and push only operator
+    // If only [0] exists, push only operator
     if (!opArray[0]) {
         opArray.push(currentValue, 'plus');
     } else if (opArray.length === 2) {
@@ -82,7 +98,29 @@ btnPlus.addEventListener('click', () => {
     } else {
         opArray.push('plus');
     }
-})
+});
+
+const btnMultiply = document.getElementById('multiply');
+btnMultiply.addEventListener('click', () => {
+    const currentValue = Number(output.textContent);
+    // Check for empty array and populate
+    // If [0] and [1] exist, perform calculation and push only operator
+    // If only [0] exists, push only operator
+    if (!opArray[0]) {
+        opArray.push(currentValue, 'multiply');
+    } else if (opArray.length === 2) {
+        operateInbetween();
+        opArray.push('multiply');
+    } else {
+        opArray.push('multiply');
+    }
+});
 
 const btnEnter = document.getElementById('enter');
 btnEnter.addEventListener('click', () => operateInbetween());
+
+const btnClear = document.getElementById('clear');
+btnClear.addEventListener('click', () => {
+    wipe(opArray);
+    output.textContent = '0';
+});
