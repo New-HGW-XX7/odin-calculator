@@ -93,7 +93,7 @@ function operateInbetween() {
 
 // Handles and populates the display
 function writeIn(input) {
-    output.textContent = input;
+    output.textContent = Math.round(input * 100) / 100;
 }
 
 // Enables typing in longer numbers than single digits
@@ -159,7 +159,7 @@ btn9.addEventListener('click', () => writeInInbetween('9'));
 const btn0 = document.getElementById('0');
 btn0.addEventListener('click', () => writeInInbetween(0));
 
-// Operator buttons and decimal
+// Operator buttons
 
 const btnPlus = document.getElementById('plus');
 btnPlus.addEventListener('click', () => checkOperatorCondition('plus'));
@@ -200,3 +200,14 @@ btnReverse.addEventListener('click', () => {
     output.textContent = output.textContent.slice(0, output.textContent.length - 1) :
     output.textContent = '0';
 });
+
+// Decimal button
+
+const btnDec = document.getElementById('decimal');
+btnDec.addEventListener('click', () => {
+    if (output.textContent.includes('.')) {
+        // Grey out button
+    } else {
+        output.textContent += '.';
+    }
+})
