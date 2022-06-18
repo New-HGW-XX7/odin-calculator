@@ -25,6 +25,11 @@ const output = document.querySelector('.output');
 // Stores operands and operators in index-order: 0: number, 1: string, 2: number
 const opArray = [];
 
+// STATUS
+const type = {
+    status: 'passive',
+};
+
 // Performs the calculation
 function operate(num1, operator, num2) {
     let temp;
@@ -60,8 +65,11 @@ function writeIn(input) {
 
 // Enables typing in longer numbers than single digits
 function writeInInbetween(numeralstring) {
-    if (output.textContent !== '0' && (opArray.length === 0 || opArray.length === 2)) {
+    if ((output.textContent !== '0' && opArray.length === 0) || type.status === 'active') {
         output.textContent += numeralstring;
+    } else if (output.textContent !== '0' && opArray.length === 2) {
+        writeIn(numeralstring);
+        type.status = 'active';
     } else {
         writeIn(numeralstring);
     }
@@ -77,13 +85,10 @@ function wipe(array) {
 // Number buttons
 
 const btn1 = document.getElementById('1');
-btn1.addEventListener('click', () => writeIn(1)); // Update these. Enable concatenation. Use new function.
-                                                  // See 3 for example. Needs to check for 0.
-                                                  // Also check if current display is a result value or not.
-                                                  // If array-length is 0 or 2 it's not and concat is okay.
+btn1.addEventListener('click', () => writeInInbetween(1));
 
 const btn2 = document.getElementById('2');
-btn2.addEventListener('click', () => writeIn(2));
+btn2.addEventListener('click', () => writeInInbetween(2));
 
 const btn3 = document.getElementById('3');
 btn3.addEventListener('click', () => writeInInbetween('3'));
@@ -105,6 +110,7 @@ btnPlus.addEventListener('click', () => {
     } else {
         opArray.push('plus');
     }
+    type.status = 'passive';
 });
 
 const btnMultiply = document.getElementById('multiply');
