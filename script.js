@@ -50,6 +50,25 @@ function operate(num1, operator, num2) {
     return temp;
 }
 
+// Checks operating conditions
+function checkOperatorCondition(operator) {
+    const currentValue = Number(output.textContent);
+    // Check for empty array and populate
+    // If [0] and [1] exist, perform calculation and push only operator
+    // If only [0] exists, push only operator
+
+    if (opArray.length === 0) {
+        opArray.push(currentValue, operator);
+    } else if (opArray.length === 2) {
+        operateInbetween();
+        opArray.push(operator);
+    } else {
+        opArray.push(operator);
+    }
+    type.status = 'passive';
+
+}
+
 // Ensures that currently displayed number is taken in.
 // This way not only Enter performs a calculation but also pressing the operator-buttons.
 function operateInbetween() {
@@ -97,28 +116,26 @@ btn3.addEventListener('click', () => writeInInbetween('3'));
 // Operator buttons
 
 const btnPlus = document.getElementById('plus');
-btnPlus.addEventListener('click', () => {
-    const currentValue = Number(output.textContent);
-    // Check for empty array and populate
-    // If [0] and [1] exist, perform calculation and push only operator
-    // If only [0] exists, push only operator
-    if (!opArray[0]) {
-        opArray.push(currentValue, 'plus');
-    } else if (opArray.length === 2) {
-        operateInbetween();
-        opArray.push('plus');
-    } else {
-        opArray.push('plus');
-    }
-    type.status = 'passive';
-});
+btnPlus.addEventListener('click', () => checkOperatorCondition('plus'));
+// btnPlus.addEventListener('click', () => {
+//     const currentValue = Number(output.textContent);
+//     // Check for empty array and populate
+//     // If [0] and [1] exist, perform calculation and push only operator
+//     // If only [0] exists, push only operator
+//     if (opArray.length === 0) {
+//         opArray.push(currentValue, 'plus');
+//     } else if (opArray.length === 2) {
+//         operateInbetween();
+//         opArray.push('plus');
+//     } else {
+//         opArray.push('plus');
+//     }
+//     type.status = 'passive';
+// });
 
 const btnMultiply = document.getElementById('multiply');
 btnMultiply.addEventListener('click', () => {
     const currentValue = Number(output.textContent);
-    // Check for empty array and populate
-    // If [0] and [1] exist, perform calculation and push only operator
-    // If only [0] exists, push only operator
     if (!opArray[0]) {
         opArray.push(currentValue, 'multiply');
     } else if (opArray.length === 2) {
@@ -130,7 +147,10 @@ btnMultiply.addEventListener('click', () => {
 });
 
 const btnEnter = document.getElementById('enter');
-btnEnter.addEventListener('click', () => operateInbetween());
+btnEnter.addEventListener('click', () => {
+    operateInbetween();
+    type.status = 'passive';
+});
 
 const btnClear = document.getElementById('clear');
 btnClear.addEventListener('click', () => {
