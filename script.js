@@ -58,6 +58,15 @@ function writeIn(input) {
     output.textContent = input;
 }
 
+// Enables typing in longer numbers than single digits
+function writeInInbetween(numeralstring) {
+    if (output.textContent !== '0' && (opArray.length === 0 || opArray.length === 2)) {
+        output.textContent += numeralstring;
+    } else {
+        writeIn(numeralstring);
+    }
+}
+
 // Clears operational array
 function wipe(array) {
     while (array[0]) {
@@ -77,9 +86,7 @@ const btn2 = document.getElementById('2');
 btn2.addEventListener('click', () => writeIn(2));
 
 const btn3 = document.getElementById('3');
-btn3.addEventListener('click', () => {
-    output.textContent += '3';
-});
+btn3.addEventListener('click', () => writeInInbetween('3'));
 
 
 // Operator buttons
