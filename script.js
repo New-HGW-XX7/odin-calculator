@@ -23,7 +23,7 @@ function operate(num1, operator, num2) {
 const output = document.querySelector('.output');
 
 // Stores operands and operators in index-order: 0: number, 1: string, 2: number
-const opArray = [];
+let opArray = [];
 
 // STATUS
 const type = {
@@ -38,12 +38,26 @@ function operate(num1, operator, num2) {
             temp = add(num1, num2);
             break;
 
+        case 'minus':
+            temp = subtract(num1, num2);
+            break;
+
         case 'multiply':
             temp = multiply(num1, num2);
             break;
         
+        case 'divide':
+            if (num2 === 0) {
+                alert('Not okay!');
+                writeIn('0');
+             } else {
+             temp = divide(num1, num2);
+             }
+            break;
+        
         default:
             console.log('default');
+            break;
     }
     wipe(opArray);
     opArray.push(temp);
@@ -84,9 +98,18 @@ function writeIn(input) {
 
 // Enables typing in longer numbers than single digits
 function writeInInbetween(numeralstring) {
-    if ((output.textContent !== '0' && opArray.length === 0) || type.status === 'active') {
-        output.textContent += numeralstring;
-    } else if (output.textContent !== '0' && opArray.length === 2) {
+    if (opArray.length === 0 || type.status === 'active') {
+        if (output.textContent === '0') {
+            output.textContent = numeralstring;
+        } else {
+            output.textContent += numeralstring;
+        }
+    } 
+    else if (opArray.length === 1) {
+        wipe(opArray);
+        writeIn(numeralstring);
+
+    } else if (opArray.length === 2) {
         writeIn(numeralstring);
         type.status = 'active';
     } else {
@@ -96,12 +119,15 @@ function writeInInbetween(numeralstring) {
 
 // Clears operational array
 function wipe(array) {
-    while (array[0]) {
+    while (array.length > 0) {
         array.pop();
     }
 }
 
 // Number buttons
+
+const allBtns = document.querySelectorAll('button');
+allBtns.forEach(el => el.addEventListener('click', () => console.log(opArray, type.status)));
 
 const btn1 = document.getElementById('1');
 btn1.addEventListener('click', () => writeInInbetween(1));
@@ -112,45 +138,51 @@ btn2.addEventListener('click', () => writeInInbetween(2));
 const btn3 = document.getElementById('3');
 btn3.addEventListener('click', () => writeInInbetween('3'));
 
+const btn4 = document.getElementById('4');
+btn4.addEventListener('click', () => writeInInbetween(4));
 
-// Operator buttons
+const btn5 = document.getElementById('5');
+btn5.addEventListener('click', () => writeInInbetween(5));
+
+const btn6 = document.getElementById('6');
+btn6.addEventListener('click', () => writeInInbetween('6'));
+
+const btn7 = document.getElementById('7');
+btn7.addEventListener('click', () => writeInInbetween(7));
+
+const btn8 = document.getElementById('8');
+btn8.addEventListener('click', () => writeInInbetween(8));
+
+const btn9 = document.getElementById('9');
+btn9.addEventListener('click', () => writeInInbetween('9'));
+
+const btn0 = document.getElementById('0');
+btn0.addEventListener('click', () => writeInInbetween(0));
+
+// Operator buttons and decimal
 
 const btnPlus = document.getElementById('plus');
 btnPlus.addEventListener('click', () => checkOperatorCondition('plus'));
-// btnPlus.addEventListener('click', () => {
-//     const currentValue = Number(output.textContent);
-//     // Check for empty array and populate
-//     // If [0] and [1] exist, perform calculation and push only operator
-//     // If only [0] exists, push only operator
-//     if (opArray.length === 0) {
-//         opArray.push(currentValue, 'plus');
-//     } else if (opArray.length === 2) {
-//         operateInbetween();
-//         opArray.push('plus');
-//     } else {
-//         opArray.push('plus');
-//     }
-//     type.status = 'passive';
-// });
+
+const btnMinus = document.getElementById('minus');
+btnMinus.addEventListener('click', () => checkOperatorCondition('minus'));
 
 const btnMultiply = document.getElementById('multiply');
-btnMultiply.addEventListener('click', () => {
-    const currentValue = Number(output.textContent);
-    if (!opArray[0]) {
-        opArray.push(currentValue, 'multiply');
-    } else if (opArray.length === 2) {
-        operateInbetween();
-        opArray.push('multiply');
-    } else {
-        opArray.push('multiply');
-    }
-});
+btnMultiply.addEventListener('click', () => checkOperatorCondition('multiply'));
+
+const btnDivide = document.getElementById('divide');
+btnDivide.addEventListener('click', () => checkOperatorCondition('divide'));
+
+// Enter button
 
 const btnEnter = document.getElementById('enter');
 btnEnter.addEventListener('click', () => {
     operateInbetween();
     type.status = 'passive';
 });
+
+
+// Clear and reverse buttons
 
 const btnClear = document.getElementById('clear');
 btnClear.addEventListener('click', () => {
