@@ -84,7 +84,7 @@ function checkOperatorCondition(operator) {
 }
 
 // Ensures that currently displayed number is taken in.
-// This way not only Enter performs a calculation but also pressing the operator-buttons.
+// This way not only Enter performs a calculation but  pressing the operator-buttons does so too.
 function operateInbetween() {
     opArray.push(Number(output.textContent));
     writeIn(operate(opArray[0], opArray[1], opArray[2]));
@@ -203,11 +203,14 @@ btnReverse.addEventListener('click', () => {
 
 // Decimal button
 
-const btnDec = document.getElementById('decimal');
+const btnDec = document.getElementById('decimal'); // Could add grey-out feature
 btnDec.addEventListener('click', () => {
-    if (output.textContent.includes('.')) {
-        // Grey out button
-    } else {
+    if (!output.textContent.includes('.')) {
         output.textContent += '.';
     }
+})
+
+// Keyboard
+window.addEventListener('keydown', (key) => {
+    if (key.code === 'KeyS') console.log('s'); // And so on
 })
