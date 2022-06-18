@@ -23,9 +23,9 @@ function operate(num1, operator, num2) {
 const output = document.querySelector('.output');
 
 // Stores operands and operators in index-order: 0: number, 1: string, 2: number
-let opArray = [];
+const opArray = [];
 
-// STATUS
+// Status
 const type = {
     status: 'passive',
 };
@@ -49,7 +49,7 @@ function operate(num1, operator, num2) {
         case 'divide':
             if (num2 === 0) {
                 alert('Not okay!');
-                writeIn('0');
+                location.reload();
              } else {
              temp = divide(num1, num2);
              }
@@ -177,8 +177,12 @@ btnDivide.addEventListener('click', () => checkOperatorCondition('divide'));
 
 const btnEnter = document.getElementById('enter');
 btnEnter.addEventListener('click', () => {
+    if (opArray.length > 1) {
     operateInbetween();
     type.status = 'passive';
+    } else {
+        writeIn(Number(output.textContent) * 2);
+    }
 });
 
 
@@ -187,5 +191,12 @@ btnEnter.addEventListener('click', () => {
 const btnClear = document.getElementById('clear');
 btnClear.addEventListener('click', () => {
     wipe(opArray);
+    output.textContent = '0';
+});
+
+const btnReverse = document.getElementById('reverse');
+btnReverse.addEventListener('click', () => {
+    (output.textContent.length > 1) ?
+    output.textContent = output.textContent.slice(0, output.textContent.length - 1) :
     output.textContent = '0';
 });
